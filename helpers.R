@@ -10,6 +10,11 @@ prh <- read_csv("data/bw170813-44/bw170813-44 10Hzprh.csv") %>%
          roll = roll * 180/pi)
 lungetable <- read_csv("data/bw170813-44/bw170813-44LungeTable.csv")
 
+# Dive threshold is half body length
+body_len <- 22.59
+dive_thr <- body_len / 2
+surf_thr <- 5
+
 plot_profile <- function(begin, end) {
   # Maximum 10,000 points
   data <- prh %>%
@@ -41,3 +46,37 @@ plot_zoom <- function(box) {
     plot_profile(box$xmin, box$xmax)
   }
 }
+
+plot_dive <- function(point) {
+  if (is.null(point)) {
+    return(NULL)
+  }
+  
+  x_idx <- which.min(abs(as.numeric(prh$datetime - point$x)))
+  if (prh$p[x_idx] < dive_thr) {
+    return(NULL)
+  } else {
+    dive_begin <- prh %>%
+      slice(1:x_idx) %>% 
+      filter(p < surf_thr) %>%
+      tail(1) %>% 
+      `$`(datetime)
+    dive_end <- prh %>%
+      slice(x_idx:nrow(prh)) %>% 
+      filter(p < surf_thr) %>%
+      head(1) %>% 
+      `$`(datetime)
+    
+    dive_data <- prh %>% 
+      filter(between(datetime, dive_begin, dive_end))
+    lunge_data <- filter(lungetable, between(datetime, dive_begin, dive_end)) %>%
+      left_join(dive_data, by = "datetime")
+    
+    plot_ly(dive_data, x = ~x, y = ~y, z = ~-p) %>% 
+      add_paths() %>%
+      add_trace(data = lunge_data,
+                mode = "markers")
+  }
+}
+
+

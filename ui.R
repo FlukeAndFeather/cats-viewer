@@ -4,14 +4,17 @@
 #
 
 library(shiny)
+library(plotly)
 
 fillPage(
   fillRow(plotOutput("deploy_plot",
                      brush = "zoom_brush"),
           height = "15%"),
-  fillRow(plotOutput("zoom_plot"),
+  fillRow(plotOutput("zoom_plot",
+                     click = "dive_click"),
           height = "15%"),
-  fillRow(fillCol(imageOutput("image3")),
+  fillRow(fillCol(plotlyOutput("dive_plot",
+                               height = "100%")),
           fillCol(imageOutput("image4"),
                   imageOutput("image5"),
                   imageOutput("image6"),
