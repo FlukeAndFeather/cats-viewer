@@ -13,13 +13,9 @@ fillPage(
   fillRow(plotOutput("zoom_plot",
                      click = "dive_click"),
           height = "15%"),
-  fillRow(fillCol(plotlyOutput("dive_plot",
-                               height = "100%")),
-          fillCol(imageOutput("image4"),
-                  imageOutput("image5"),
-                  imageOutput("image6"),
-                  imageOutput("image7"),
-                  flex = 1),
+  fillRow(plotlyOutput("dive_plot",
+                       height = "100%"),
+          plotOutput("lunge_plots"),
           flex = c(4, 3),
           height = "70%")
 )
