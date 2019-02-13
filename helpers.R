@@ -10,19 +10,34 @@ prh <- read_csv("data/bw170813-44/bw170813-44 10Hzprh.csv") %>%
          roll = roll * 180/pi)
 lungetable <- read_csv("data/bw170813-44/bw170813-44LungeTable.csv")
 
-plot_deployment <- function() {
-  date_rng <- max(prh$datetime) - min(prh$datetime)
-  offset <- 0.05
-  date_breaks <- seq(min(prh$datetime) + offset * date_rng,
-                     max(prh$datetime) - offset * date_rng,
-                     length.out = 5)
+plot_profile <- function(begin, end) {
   # Maximum 10,000 points
-  prh %>%
-    slice(seq(1, nrow(prh), length.out = 10e3)) %>%
-    ggplot(aes(datetime, p)) +
+  data <- prh %>%
+    filter(between(datetime, begin, end)) %>%
+    slice(seq(1, nrow(prh), length.out = 10e3))
+  
+  date_rng <- max(data$datetime) - min(data$datetime)
+  offset <- 0.05
+  date_breaks <- seq(min(data$datetime) + offset * date_rng,
+                     max(data$datetime) - offset * date_rng,
+                     length.out = 5)
+  
+  ggplot(data, aes(datetime, p)) +
     geom_line() +
     scale_x_datetime(breaks = date_breaks) +
     scale_y_reverse() +
     theme_classic() +
     theme(axis.title = element_blank())
+}
+
+plot_deployment <- function() {
+  plot_profile(min(prh$datetime), max(prh$datetime))
+}
+
+plot_zoom <- function(box) {
+  if (is.null(box)) {
+    NULL
+  } else {
+    plot_profile(box$xmin, box$xmax)
+  }
 }

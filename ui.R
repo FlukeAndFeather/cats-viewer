@@ -6,9 +6,10 @@
 library(shiny)
 
 fillPage(
-  fillRow(plotOutput("deploy_plot"),
+  fillRow(plotOutput("deploy_plot",
+                     brush = "zoom_brush"),
           height = "15%"),
-  fillRow(imageOutput("image2"),
+  fillRow(plotOutput("zoom_plot"),
           height = "15%"),
   fillRow(fillCol(imageOutput("image3")),
           fillCol(imageOutput("image4"),
