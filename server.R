@@ -1,7 +1,8 @@
 library(shiny)
+source("helpers.R")
 
 shinyServer(function(input, output) {
-  output$image1 <- renderImage(list(src = "img/placeholder.png"), deleteFile = FALSE)
+  output$deploy_plot <- renderPlot({ plot_deployment() }, height = 120)
   output$image2 <- renderImage(list(src = "img/placeholder.png"), deleteFile = FALSE)
   output$image3 <- renderImage(list(src = "img/placeholder.png"), deleteFile = FALSE)
   output$image4 <- renderImage(list(src = "img/placeholder.png"), deleteFile = FALSE)

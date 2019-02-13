@@ -6,9 +6,9 @@
 library(shiny)
 
 fillPage(
-  fillRow(imageOutput("image1", height = "100px"),
+  fillRow(plotOutput("deploy_plot"),
           height = "15%"),
-  fillRow(imageOutput("image2", height = "100px"),
+  fillRow(imageOutput("image2"),
           height = "15%"),
   fillRow(fillCol(imageOutput("image3")),
           fillCol(imageOutput("image4"),
