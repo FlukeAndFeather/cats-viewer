@@ -6,9 +6,9 @@ shinyServer(function(input, output) {
   values <- reactiveValues()
   
   output$deploy_plot <- renderPlot({ plot_deployment() }, 
-                                   height = 120)
+                                   height = 100)
   output$zoom_plot <- renderPlot({ plot_zoom(input$zoom_brush, values$dive_data) }, 
-                                 height = 120)
+                                 height = 100)
   output$dive_plot <- renderPlotly({ 
     if (!is.null(input$dive_click)) {
       values$dive_click <- input$dive_click

@@ -164,7 +164,7 @@ plot_lunge <- function(lunge_time) {
           axis.line.y.right = element_line(color = "blue"),
           axis.title.y.right = element_text(color = "blue"),
           legend.position = "none") +
-    labs(y = expression("Pitch (" ( degree ))) 
+    labs(y = expression("Pitch " ( degree ))) 
   # gyro_y ~ time
   p4 <- ggplot(mapping = aes(secs_since, Gy)) +
     geom_hline(yintercept = 0,
